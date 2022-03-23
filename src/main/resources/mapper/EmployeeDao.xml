@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 这里填写对应的Dao文件所在的路径 -->
+<mapper namespace="com.nyzs.examonline.dao.EmployeeDao"    >
+    <!-- 填写数据库里实例Person对应的表的表名 -->
+    <!-- 这里是作为一个变量使用 -->
+    <sql id="table">employee_info</sql>
+
+    <resultMap type="com.nyzs.examonline.bean.Employee" id="employeeMap">
+        <id column="id" property="id"/>
+        <result column="employee_num" property="employeeNum"/>
+        <result column="employee_name" property="employeeName"/>
+
+    </resultMap>
+
+
+    <!-- id属性填写Dao文件里的函数名称 xxType是参数或是结果的类型根据情况填写 -->
+    <!-- 查询所有   -->
+    <select id="getAllEmployee" resultType="com.nyzs.examonline.bean.Employee" resultMap="employeeMap">
+        SELECT
+        *
+        FROM
+        <include refid="table" />
+    </select>
+
+
+    <!-- 根据id查询 -->
+    <select id="getEmployeeByNum" resultType="com.nyzs.examonline.bean.Employee" resultMap="employeeMap">
+        SELECT
+        *
+        FROM
+        <include refid="table"/>
+        WHERE
+        employee_num = #{empNum}
+    </select>
+
+
+    <!-- 增 -->
+    <!--<insert id="newp" parameterType="com.ljsh.test.model.Person">
+        INSERT INTO
+        <include refid="table"/>
+        (name,phone)
+        VALUES
+        (#{name},#{phone})
+    </insert>-->
+
+    <!-- 改 -->
+    <!--<update id="update" parameterType="com.ljsh.test.model.Person">
+        UPDATE
+        <include refid="table"/>
+        SET
+        &lt;!&ndash;<if test="name != null">name = #{name}</if>&ndash;&gt;
+        name  = #{name},phone = #{phone},status = #{status}
+        WHERE
+        id = #{id}
+    </update>-->
+
+    <!-- 删 -->
+    <!--<delete id="delete" parameterType="com.ljsh.test.model.Person">
+        DELETE FROM
+        <include refid="table"/>
+        WHERE
+        id = #{id}
+    </delete>-->
+</mapper>

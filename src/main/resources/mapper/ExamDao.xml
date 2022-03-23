@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 这里填写对应的Dao文件所在的路径 -->
+<mapper namespace="com.nyzs.examonline.dao.ExamDao"    >
+    <!-- 填写数据库里对应的表的表名 -->
+    <!-- 这里是作为一个变量使用 -->
+    <sql id="table">exam_date</sql>
+
+    <resultMap type="com.nyzs.examonline.bean.EmployeeGrades" id="employeeGradesMap">
+        <id column="id" property="id"/>
+        <result column="employee_num" property="employeeNum"/>
+        <result column="employee_name" property="employeeName"/>
+        <result column="exam_date" property="examDate"/>
+        <result column="grades" property="grades"/>
+
+    </resultMap>
+
+    <resultMap type="com.nyzs.examonline.bean.ExamPaper" id="examPaperMap">
+
+        <result column="question_idx" property="questionIdx"/>
+        <result column="question_content" property="questionContent"/>
+        <result column="answer" property="answer"/>
+        <result column="exam_date" property="examDate"/>
+
+    </resultMap>
+
+    <!-- id属性填写Dao文件里的函数名称 xxType是参数或是结果的类型根据情况填写 -->
+    <!-- 查询所有   -->
+    <select id="getExamDate" resultType="String">
+        SELECT
+        exam_date
+        FROM
+        <include refid="table" />
+    </select>
+
+    <!--   查考试状态-->
+    <select id="getExamStatus" resultType="com.nyzs.examonline.bean.EmployeeGrades" resultMap="employeeGradesMap">
+        SELECT
+        *
+        FROM
+        employee_grades
+        WHERE
+        employee_num = #{num}
+        AND
+        exam_date = #{examdate}
+    </select>
+
+    <!--    生成10道题的试卷-->
+    <insert id="generateExamPaper" parameterType="String">
+        insert into
+            exam_paper_generate_date
+	        select
+	            question_idx,
+	            question_content,
+	            answer,
+	            #{examdate}
+	        from
+	            exam_paper_total
+	        ORDER BY
+	            RAND() LIMIT 10;
+    </insert>
+
+    <!-- 查询试卷   -->
+    <select id="getExamPaperByExamDate" resultType="com.nyzs.examonline.bean.ExamPaper" resultMap="examPaperMap">
+        select
+            *
+        from
+            exam_paper_generate_date
+        where
+            exam_date = #{examdate}
+    </select>
+
+
+
+
+
+
+
+
+</mapper>
