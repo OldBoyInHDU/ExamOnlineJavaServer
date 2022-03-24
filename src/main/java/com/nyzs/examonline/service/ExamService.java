@@ -29,11 +29,19 @@ public class ExamService {
         return examDao.getExamStatus(num, examdate);
     }
 
-    public List<ExamPaper> generateExamPaper(String examdate) throws Exception {
-        return examDao.generateExamPaper(examdate);
+    public void generateExamPaper(String examdate) throws Exception {
+        examDao.generateExamPaper(examdate);
     }
 
     public List<ExamPaper> getExamPaperByExamDate(String examdate) throws Exception {
         return examDao.getExamPaperByExamDate(examdate);
+    }
+
+    public void updateExamDate(String examdate) throws Exception {
+        examDao.updateExamDate(examdate);
+    }
+
+    public void recordGrades(EmployeeGrades employeeGrades) throws Exception {
+        examDao.recordGrades(employeeGrades);
     }
 }

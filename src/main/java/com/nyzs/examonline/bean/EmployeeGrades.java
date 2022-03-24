@@ -7,24 +7,23 @@ package com.nyzs.examonline.bean;
  */
 public class EmployeeGrades {
     private int id;
-    private int employeeNum;
+    private String employeeNum;
     private String employeeName;
     private String examDate;
     private int grades;
 
-    public int getId() {
-        return id;
+    public EmployeeGrades(String employeeNum, String employeeName, String examDate, int grades) {
+        this.employeeNum = employeeNum;
+        this.employeeName = employeeName;
+        this.examDate = examDate;
+        this.grades = grades;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getEmployeeNum() {
+    public String getEmployeeNum() {
         return employeeNum;
     }
 
-    public void setEmployeeNum(int employeeNum) {
+    public void setEmployeeNum(String employeeNum) {
         this.employeeNum = employeeNum;
     }
 
@@ -51,6 +50,18 @@ public class EmployeeGrades {
     public void setGrades(int grades) {
         this.grades = grades;
     }
+
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
 
     @Override
     public String toString() {

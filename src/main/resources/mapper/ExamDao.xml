@@ -29,9 +29,10 @@
     <!-- 查询所有   -->
     <select id="getExamDate" resultType="String">
         SELECT
-        exam_date
-        FROM
-        <include refid="table" />
+            exam_date
+        from
+            exam_date
+        where id = (select max(id) from exam_date)
     </select>
 
     <!--   查考试状态-->
@@ -71,6 +72,22 @@
             exam_date = #{examdate}
     </select>
 
+    <!--    修改考试期数-->
+    <insert id="updateExamDate" parameterType="String">
+        insert into
+            exam_date
+        values
+            (id, #{examdate})
+    </insert>
+
+    <!-- 登记成绩   -->
+    <insert id="recordGrades" parameterType="com.nyzs.examonline.bean.EmployeeGrades">
+        INSERT INTO
+            employee_grades
+            (id, employee_num, employee_name, exam_date, grades)
+        VALUES
+            (id,#{employeeNum},#{employeeName},#{examDate},#{grades})
+    </insert>
 
 
 

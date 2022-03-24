@@ -13,7 +13,11 @@ public interface ExamDao {
 
     EmployeeGrades getExamStatus(String num, String examdate) throws Exception;
 
-    List<ExamPaper> generateExamPaper(String examdate) throws Exception;
+    void generateExamPaper(String examdate) throws Exception;
 
     List<ExamPaper> getExamPaperByExamDate(String examdate) throws Exception;
+
+    void updateExamDate(String examdate) throws Exception;
+
+    void recordGrades(EmployeeGrades employeeGrades) throws Exception;
 }

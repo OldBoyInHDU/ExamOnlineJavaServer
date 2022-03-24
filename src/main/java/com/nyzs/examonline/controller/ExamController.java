@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -54,12 +55,15 @@ public class ExamController {
     }
 
 
-    @RequestMapping("/generateExamPaper")
+    @RequestMapping(value = "/generateExamPaper", method = RequestMethod.POST)
     public ResponseResult generateExamPaper(String examdate) {
-        List<ExamPaper> examPaperList = null;
+
         try {
-            examPaperList = examService.generateExamPaper(examdate);
-            return ResponseResult.ok(examPaperList);
+            examService.generateExamPaper(examdate);
+            System.out.println("post考试期数" + examdate);
+            //生成试卷后，修改考试期数
+            examService.updateExamDate(examdate);
+            return ResponseResult.ok("生成试卷成功");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -76,4 +80,20 @@ public class ExamController {
         }
         return ResponseResult.failed("通过考试期数获取试卷失败");
     }
+
+    @RequestMapping(value = "/recordGrades", method = RequestMethod.POST)
+    public ResponseResult recordGrades(String employeeNum, String employeeName, String examdate, int grades) {
+        try {
+            System.out.println(employeeNum);
+            System.out.println(employeeName);
+            System.out.println(examdate);
+            System.out.println(grades);
+            examService.recordGrades(new EmployeeGrades(employeeNum, employeeName, examdate, grades));
+            return ResponseResult.ok("成绩记录成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseResult.failed("成绩记录失败");
+    }
+
 }
