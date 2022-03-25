@@ -44,4 +44,12 @@ public class ExamService {
     public void recordGrades(EmployeeGrades employeeGrades) throws Exception {
         examDao.recordGrades(employeeGrades);
     }
+
+    public List<EmployeeGrades> getAllGrades() throws Exception {
+        return examDao.getAllGrades();
+    }
+
+    public List<EmployeeGrades> getGradesByName(String name) throws Exception {
+        return examDao.getGradesByName(name);
+    }
 }

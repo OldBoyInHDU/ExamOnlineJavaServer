@@ -20,4 +20,8 @@ public interface ExamDao {
     void updateExamDate(String examdate) throws Exception;
 
     void recordGrades(EmployeeGrades employeeGrades) throws Exception;
+
+    List<EmployeeGrades> getAllGrades() throws Exception;
+
+    List<EmployeeGrades> getGradesByName(String name) throws Exception;
 }

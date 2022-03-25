@@ -96,4 +96,24 @@ public class ExamController {
         return ResponseResult.failed("成绩记录失败");
     }
 
+    @RequestMapping("/getAllGrades")
+    public ResponseResult getAllGrades() {
+        try {
+            return ResponseResult.ok(examService.getAllGrades());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseResult.failed("获取所有成绩失败");
+    }
+
+    @RequestMapping("/getGradesByName")
+    public ResponseResult getGradesByName(String name) {
+        try {
+            return ResponseResult.ok(examService.getGradesByName(name));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseResult.failed("根据姓名查询成绩失败");
+    }
+
 }

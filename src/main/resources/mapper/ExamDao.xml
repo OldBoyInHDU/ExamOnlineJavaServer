@@ -89,6 +89,24 @@
             (id,#{employeeNum},#{employeeName},#{examDate},#{grades})
     </insert>
 
+    <!--    获得所有员工的成绩-->
+    <select id="getAllGrades" resultType="com.nyzs.examonline.bean.EmployeeGrades" resultMap="employeeGradesMap">
+        select
+            *
+        from
+            employee_grades
+    </select>
+
+    <!--    根据姓名获得员工成绩-->
+    <select id="getGradesByName" parameterType="String" resultType="com.nyzs.examonline.bean.EmployeeGrades" resultMap="employeeGradesMap">
+        select
+            *
+        from
+            employee_grades
+        where
+            employee_name = #{name}
+    </select>
+
 
 
 
