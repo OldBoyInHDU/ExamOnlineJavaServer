@@ -52,4 +52,8 @@ public class ExamService {
     public List<EmployeeGrades> getGradesByName(String name) throws Exception {
         return examDao.getGradesByName(name);
     }
+
+    public List<EmployeeGrades> getGradesByNameOrExamDate(String name, String examDate) throws Exception {
+        return examDao.getGradesByNameOrExamDate(name, examDate);
+    }
 }

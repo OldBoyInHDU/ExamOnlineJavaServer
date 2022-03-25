@@ -24,4 +24,6 @@ public interface ExamDao {
     List<EmployeeGrades> getAllGrades() throws Exception;
 
     List<EmployeeGrades> getGradesByName(String name) throws Exception;
+
+    List<EmployeeGrades> getGradesByNameOrExamDate(String name, String examDate) throws Exception;
 }

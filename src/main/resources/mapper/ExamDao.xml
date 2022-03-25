@@ -107,6 +107,24 @@
             employee_name = #{name}
     </select>
 
+    <!--    根据姓名or考试日期获得员工成绩-->
+    <select id="getGradesByNameOrExamDate" parameterType="String" resultType="com.nyzs.examonline.bean.EmployeeGrades" resultMap="employeeGradesMap">
+        select
+            *
+        from
+            employee_grades eg
+        <where>
+            <if test="examDate!=null and examDate!='' ">
+                eg.exam_date LIKE CONCAT(CONCAT('%', #{examDate}),'%')
+            </if>
+            <if test="name!= null and name!= '' ">
+                AND eg.employee_name = #{name}
+            </if>
+        </where>
+
+    </select>
+
+
 
 
 

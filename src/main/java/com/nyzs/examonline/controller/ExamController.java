@@ -116,4 +116,14 @@ public class ExamController {
         return ResponseResult.failed("根据姓名查询成绩失败");
     }
 
+    @RequestMapping("/getGradesByNameOrExamDate")
+    public ResponseResult getGradesByNameOrExamDate(String name, String examDate) {
+        try {
+            return ResponseResult.ok(examService.getGradesByNameOrExamDate(name, examDate));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseResult.failed("通过姓名或考试日期获得成绩失败");
+    }
+
 }
