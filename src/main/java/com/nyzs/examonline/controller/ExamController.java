@@ -74,6 +74,7 @@ public class ExamController {
     @RequestMapping("/getExamPaperByExamDate")
     public ResponseResult getExamPaperByExamDate(String examdate) {
         try {
+            System.out.println("examdate"+examdate);
             return ResponseResult.ok(examService.getExamPaperByExamDate(examdate));
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,10 +85,6 @@ public class ExamController {
     @RequestMapping(value = "/recordGrades", method = RequestMethod.POST)
     public ResponseResult recordGrades(String employeeNum, String employeeName, String examdate, int grades) {
         try {
-            System.out.println(employeeNum);
-            System.out.println(employeeName);
-            System.out.println(examdate);
-            System.out.println(grades);
             examService.recordGrades(new EmployeeGrades(employeeNum, employeeName, examdate, grades));
             return ResponseResult.ok("成绩记录成功");
         } catch (Exception e) {

@@ -2,8 +2,12 @@ package com.nyzs.examonline.service;
 
 import com.nyzs.examonline.bean.EmployeeGrades;
 import com.nyzs.examonline.bean.ExamPaper;
+import com.nyzs.examonline.controller.ExamController;
 import com.nyzs.examonline.dao.ExamDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +21,13 @@ import java.util.List;
 @Service
 public class ExamService {
 
+    private static Logger logger = LoggerFactory.getLogger(ExamService.class);
+
     @Autowired
     ExamDao examDao;
+
+    @Autowired
+    RedisTemplate redisTemplate;
 
 
     public String getExamDate() throws Exception {
@@ -34,7 +43,28 @@ public class ExamService {
     }
 
     public List<ExamPaper> getExamPaperByExamDate(String examdate) throws Exception {
-        return examDao.getExamPaperByExamDate(examdate);
+
+        String key = "paper:" + examdate;
+
+        Object paperObject = redisTemplate.opsForValue().get(key);
+        if(paperObject == null) {
+            synchronized (this.getClass()) {
+                paperObject = redisTemplate.opsForValue().get(key);
+                if(paperObject == null) {
+                    logger.debug("---------查询数据库--------");
+                    List<ExamPaper> paper = examDao.getExamPaperByExamDate(examdate);
+                    redisTemplate.opsForValue().set(key, paper);
+                    return paper;
+                } else {
+                    logger.debug("---------查询缓存，同步代码块--------");
+                }
+            }
+        } else {
+            logger.debug("---------查询缓存--------");
+        }
+        return (List<ExamPaper>)paperObject;
+
+//        return examDao.getExamPaperByExamDate(examdate);
     }
 
     public void updateExamDate(String examdate) throws Exception {
