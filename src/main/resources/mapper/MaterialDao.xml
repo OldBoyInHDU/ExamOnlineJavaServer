@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 这里填写对应的Dao文件所在的路径 -->
+<mapper namespace="com.nyzs.examonline.dao.material.MaterialDao"    >
+    <!-- 填写数据库里对应的表的表名 -->
+    <!-- 这里是作为一个变量使用 -->
+    <sql id="table">material_log_info</sql>
+
+    <resultMap type="com.nyzs.examonline.bean.material.Material" id="MaterialLogMap">
+        <id column="id" property="id"/>
+        <result column="num" property="num"/>
+        <result column="name" property="name"/>
+        <result column="unit" property="unit"/>
+        <result column="material_type" property="materialType"/>
+        <result column="material_num" property="materialNum"/>
+        <result column="log_date" property="logDate"/>
+    </resultMap>
+
+    <resultMap type="com.nyzs.examonline.bean.material.StockDTO" id="StockMap">
+        <id column="id" property="id"/>
+        <result column="material_type" property="materialType"/>
+        <result column="material_stock_num" property="materialStockNum"/>
+        <result column="last_update_date" property="lastUpdateDate"/>
+    </resultMap>
+
+    <resultMap type="com.nyzs.examonline.bean.material.LogDTO" id="LogMap">
+        <id column="id" property="id"/>
+        <result column="num" property="num"/>
+        <result column="name" property="name"/>
+        <result column="unit" property="unit"/>
+        <result column="material_type" property="materialType"/>
+        <result column="material_num" property="materialNum"/>
+        <result column="log_date" property="logDate"/>
+    </resultMap>
+
+    <!-- id属性填写Dao文件里的函数名称 xxType是参数或是结果的类型根据情况填写 -->
+
+
+    <!-- 保存表单   -->
+    <insert id="saveFormLog" parameterType="com.nyzs.examonline.bean.material.Material">
+        INSERT INTO
+            material_log_info
+            (id, num, name, unit, material_type, material_num, log_date)
+        VALUES
+            (id, #{num}, #{name}, #{unit}, #{materialType}, #{materialNum}, DATE_FORMAT(#{logDate}, '%Y-%m-%d'))
+    </insert>
+
+    <!--    通过品类名获得物料库存-->
+    <select id="getStockInfoByMaterialType" parameterType="String" resultType="int">
+        SELECT
+            material_stock_num
+        FROM
+            material_stock_info
+        WHERE
+            material_type = #{materialType}
+    </select>
+
+    <!--    更新库存-->
+    <update id="updateStockInfo" parameterType="com.nyzs.examonline.bean.material.StockDTO">
+        update
+            material_stock_info
+        set
+            material_stock_num = #{materialStockNum},
+            last_update_date = DATE_FORMAT(NOW(), '%Y-%m-%d')
+        where
+            material_type = #{materialType}
+    </update>
+
+    <!--    查询库存-->
+    <select id="getStockInfo" parameterType="String" resultType="com.nyzs.examonline.bean.material.StockDTO" resultMap="StockMap">
+        select
+            *
+        from
+            material_stock_info msi
+        <where>
+            <if test="value!=null and value!='' ">
+                msi.material_type LIKE CONCAT(CONCAT('%', #{materialTypeSearch}),'%')
+            </if>
+
+        </where>
+    </select>
+
+    <!--    领用记录查询-->
+    <select id="getLogInfo" parameterType="com.nyzs.examonline.bean.material.LogDTO" resultType="com.nyzs.examonline.bean.material.LogDTO" resultMap="LogMap">
+        select
+            *
+        from
+            material_log_info mli
+        <where>
+            <if test="name!=null and name!='' ">
+                mli.name LIKE CONCAT(CONCAT('%', #{name}),'%')
+            </if>
+            <if test="unit!= null and unit!= '' ">
+                AND mli.unit = #{unit}
+            </if>
+        </where>
+        ORDER BY
+            id DESC
+    </select>
+
+    <!--    物料品类查询-->
+    <select id="getLatestMaterialTypes" resultType="java.lang.String" >
+        select
+            material_type
+        from
+            material_stock_info
+    </select>
+
+    <!--    新增物料品类-->
+    <insert id="addNewMaterialType" parameterType="com.nyzs.examonline.bean.material.StockDTO">
+        insert into
+            material_stock_info
+        values (
+                id,
+                #{materialType},
+                #{materialStockNum},
+                DATE_FORMAT(NOW(), '%Y-%m-%d')
+               )
+    </insert>
+
+
+
+
+
+
+</mapper>
