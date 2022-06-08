@@ -19,20 +19,20 @@
     <!-- 查询所有   -->
     <select id="getAllEmployee" resultType="com.nyzs.examonline.bean.Employee" resultMap="employeeMap">
         SELECT
-        *
+            *
         FROM
-        <include refid="table" />
+            <include refid="table" />
     </select>
 
 
     <!-- 根据id查询 -->
     <select id="getEmployeeByNum" resultType="com.nyzs.examonline.bean.Employee" resultMap="employeeMap">
         SELECT
-        *
+            *
         FROM
-        <include refid="table"/>
+            <include refid="table"/>
         WHERE
-        employee_num = #{empNum}
+            employee_num = #{empNum}
     </select>
 
 

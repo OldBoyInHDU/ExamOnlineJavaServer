@@ -38,29 +38,38 @@
     <!--   查考试状态-->
     <select id="getExamStatus" resultType="com.nyzs.examonline.bean.EmployeeGrades" resultMap="employeeGradesMap">
         SELECT
-        *
+            *
         FROM
-        employee_grades
+            employee_grades
         WHERE
-        employee_num = #{num}
+            employee_num = #{num}
         AND
-        exam_date = #{examdate}
+            exam_date = #{examdate}
     </select>
 
     <!--    生成10道题的试卷-->
     <insert id="generateExamPaper" parameterType="String">
-        insert into
-            exam_paper_generate_date
-	        select
-	            question_idx,
-	            question_content,
-	            answer,
-	            #{examdate}
-	        from
-	            exam_paper_total
-	        ORDER BY
-	            RAND() LIMIT 10;
+
+	    insert into
+		    exam_paper_generate_date(question_idx, question_content, answer, exam_date)
+            (select question_idx, question_content, answer, #{examdate} from exam_paper_total ORDER BY RAND() LIMIT 6)
+            UNION
+            (select question_idx, question_content, answer, #{examdate} from exam_paper_item_culture ORDER BY RAND() LIMIT 2)
+            UNION
+            (select question_idx, question_content, answer, #{examdate} from exam_paper_item_rule ORDER BY RAND() LIMIT 2);
     </insert>
+
+    <!-- insert into
+    exam_paper_generate_date
+    select
+    question_idx,
+    question_content,
+    answer,
+    #{examdate}
+    from
+    exam_paper_total
+    ORDER BY
+    RAND() LIMIT 10; -->
 
     <!-- 查询试卷   -->
     <select id="getExamPaperByExamDate" resultType="com.nyzs.examonline.bean.ExamPaper" resultMap="examPaperMap">

@@ -2,7 +2,7 @@ package com.nyzs.examonline.bean;
 
 /**
  * @author ：RukiHuang
- * @description：TODO
+ * @description：
  * @date ：2022/3/20 18:02
  */
 public class EmployeeGrades {

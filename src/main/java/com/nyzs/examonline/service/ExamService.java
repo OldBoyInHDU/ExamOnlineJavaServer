@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * @author ：RukiHuang
- * @description：TODO
+ * @description：
  * @date ：2022/3/20 16:46
  */
 
@@ -44,27 +44,30 @@ public class ExamService {
 
     public List<ExamPaper> getExamPaperByExamDate(String examdate) throws Exception {
 
-        String key = "paper:" + examdate;
-
+        /*String key = "paper:" + examdate;
+        System.out.println("key:" + key);
         Object paperObject = redisTemplate.opsForValue().get(key);
-        if(paperObject == null) {
+        System.out.println("paperObject:" + paperObject);
+        if(paperObject ==null) {
+            System.out.println("进入redis");
             synchronized (this.getClass()) {
                 paperObject = redisTemplate.opsForValue().get(key);
                 if(paperObject == null) {
-                    logger.debug("---------查询数据库--------");
+                    logger.info("---------查询数据库--------");
                     List<ExamPaper> paper = examDao.getExamPaperByExamDate(examdate);
                     redisTemplate.opsForValue().set(key, paper);
                     return paper;
                 } else {
-                    logger.debug("---------查询缓存，同步代码块--------");
+                    logger.info("---------查询缓存，同步代码块--------");
                 }
             }
         } else {
-            logger.debug("---------查询缓存--------");
+            System.out.println("没进缓存");
+            logger.info("---------没进缓存--------");
         }
-        return (List<ExamPaper>)paperObject;
+        return (List<ExamPaper>)paperObject;*/
 
-//        return examDao.getExamPaperByExamDate(examdate);
+        return examDao.getExamPaperByExamDate(examdate);
     }
 
     public void updateExamDate(String examdate) throws Exception {

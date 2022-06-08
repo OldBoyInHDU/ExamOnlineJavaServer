@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +17,7 @@ import java.util.List;
 
 /**
  * @author ：RukiHuang
- * @description：TODO
+ * @description： 考试的controller
  * @date ：2022/3/20 16:44
  */
 @RestController
@@ -81,6 +82,7 @@ public class ExamController {
         }
         return ResponseResult.failed("通过考试期数获取试卷失败");
     }
+
 
     @RequestMapping(value = "/recordGrades", method = RequestMethod.POST)
     public ResponseResult recordGrades(String employeeNum, String employeeName, String examdate, int grades) {
