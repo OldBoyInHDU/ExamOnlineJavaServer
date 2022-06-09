@@ -22,11 +22,16 @@ public class MaterialService {
 
     public void saveFormLog(Material material) throws Exception {
         materialDao.saveFormLog(material);
+        //最新的库存数量
+        int latestNum = materialDao.getStockInfoByMaterialType(material.getMaterialType());
+        //更新库存数量
+        StockDTO stockDTO = new StockDTO(material.getMaterialType(), latestNum - material.getMaterialNum());
+        materialDao.updateStockInfo(stockDTO);
     }
 
     public void updateStockInfo(String materialType, int stockNum) throws Exception {
-        int lastNum = materialDao.getStockInfoByMaterialType(materialType);
-        StockDTO stockDTO = new StockDTO(materialType, lastNum + stockNum);
+        int latestNum = materialDao.getStockInfoByMaterialType(materialType);
+        StockDTO stockDTO = new StockDTO(materialType, latestNum + stockNum);
         materialDao.updateStockInfo(stockDTO);
     }
 
