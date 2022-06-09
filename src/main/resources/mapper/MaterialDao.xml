@@ -82,7 +82,7 @@
     </select>
 
     <!--    领用记录查询-->
-    <select id="getLogInfo" parameterType="com.nyzs.examonline.bean.material.LogDTO" resultType="com.nyzs.examonline.bean.material.LogDTO" resultMap="LogMap">
+    <select id="getLogInfo" parameterType="String" resultType="com.nyzs.examonline.bean.material.LogDTO" resultMap="LogMap">
         select
             *
         from

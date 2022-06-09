@@ -14,9 +14,9 @@ public class LogDTO {
     private int materialNum;
     private String logDate;
 
-    public LogDTO(String num, String name) {
-        this.num = num;
+    public LogDTO(String name, String unit) {
         this.name = name;
+        this.unit = unit;
     }
 
     public LogDTO(int id, String num, String name, String unit, String materialType, int materialNum, String logDate) {

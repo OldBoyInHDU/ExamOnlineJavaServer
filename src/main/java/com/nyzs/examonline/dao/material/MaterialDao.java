@@ -17,7 +17,7 @@ public interface MaterialDao {
 
     List<StockDTO> getStockInfo(String materialTypeSearch) throws Exception;
 
-    List<LogDTO> getLogInfo(LogDTO logDTO) throws Exception;
+    List<LogDTO> getLogInfo(String name, String unit) throws Exception;
 
     List<String> getLatestMaterialTypes() throws Exception;
 

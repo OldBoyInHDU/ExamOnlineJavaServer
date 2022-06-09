@@ -35,8 +35,7 @@ public class MaterialService {
     }
 
     public List<LogDTO> getLogInfo(String name, String unit) throws Exception {
-        LogDTO logDTO = new LogDTO(name, unit);
-        return materialDao.getLogInfo(logDTO);
+        return materialDao.getLogInfo(name, unit);
     }
 
     public List<String> getLatestMaterialTypes() throws Exception {
